@@ -1,0 +1,26 @@
+.navbar{
+    height: 10vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    color: #f6e3ce;
+    font-family: "Krona One", sans-serif;
+    font-weight: 500;
+}
+
+.navbar div{
+    margin: 16px 32px;
+}
+
+.nav-btn:hover{
+    color: #a59686;
+    cursor: pointer;
+}
+
+@media screen and (max-width: 500px) {
+    .navbar{
+        font-size: 16px;
+    }
+}
