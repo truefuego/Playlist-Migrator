@@ -7,8 +7,6 @@ import { GoogleLogin } from 'react-google-login'
 import { GenericApi } from '../Components/GenericApi'
 import Summary from './Summary'
 import NavBar from '../Components/NavBar'
-const clientId = '334628127192-cb17obfujh46c0fc0atuaq8gp94mis63.apps.googleusercontent.com'
-const API_KEY = 'AIzaSyAHcCkdC0iXi9qp0d-iorUjISddsmFuHhU'
 
 const MigrateToSink = () => {
   const {sourceAccessToken,sourceType,sinkType,sinkAccessToken,setSinkAccessToken,setSinkUserID} = useSourceSinkStore((state) => ({sourceAccessToken:state.sourceAccessToken,sourceType:state.sourceType,sinkType: state.sinkType,sinkAccessToken:state.sinkAccessToken,setSinkAccessToken: state.setSinkAccessToken,setSinkUserID:state.setSinkUserID}))
@@ -86,7 +84,7 @@ const MigrateToSink = () => {
       do {
         switch(sourceType) {
           case "YOUTUBE" :
-            API_URL= nextPageToken !== null ? `https://youtube.googleapis.com/youtube/v3/playlistItems?key=${API_KEY}&playlistId=${playlists[i].id}&part=snippet&maxResults=50&pageToken=${nextPageToken}` : `https://youtube.googleapis.com/youtube/v3/playlistItems?key=${API_KEY}&playlistId=${playlists[i].id}&part=snippet&maxResults=50`
+            API_URL= nextPageToken !== null ? `https://youtube.googleapis.com/youtube/v3/playlistItems?key=${process.env.API_KEY}&playlistId=${playlists[i].id}&part=snippet&maxResults=50&pageToken=${nextPageToken}` : `https://youtube.googleapis.com/youtube/v3/playlistItems?key=${process.env.API_KEY}&playlistId=${playlists[i].id}&part=snippet&maxResults=50`
             PAYLOAD= {
               method: 'GET',
               headers: {
@@ -158,7 +156,7 @@ const MigrateToSink = () => {
       
       switch(sinkType) {
         case "YOUTUBE": 
-          API_URL= `https://www.googleapis.com/youtube/v3/playlists?key=${API_KEY}&part=snippet,status`
+          API_URL= `https://www.googleapis.com/youtube/v3/playlists?key=${process.env.API_KEY}&part=snippet,status`
           PAYLOAD= {
             method: 'POST',
             headers: {
@@ -201,7 +199,7 @@ const MigrateToSink = () => {
       for(let j = 0 ; j < playlistTracks.length ; j++) {
         switch(sinkType) {
           case "YOUTUBE": 
-            API_URL= `https://www.googleapis.com/youtube/v3/search?key=${API_KEY}&q=${encodeURI(playlistTracks[j].name)}&type=video&part=snippet&maxResults=1`
+            API_URL= `https://www.googleapis.com/youtube/v3/search?key=${process.env.API_KEY}&q=${encodeURI(playlistTracks[j].name)}&type=video&part=snippet&maxResults=1`
             PAYLOAD= {
               method: 'GET',
             }
@@ -225,7 +223,7 @@ const MigrateToSink = () => {
         
         switch(sinkType) {
           case "YOUTUBE": 
-            API_URL= `https://www.googleapis.com/youtube/v3/playlistItems?key=${API_KEY}&part=snippet`
+            API_URL= `https://www.googleapis.com/youtube/v3/playlistItems?key=${process.env.API_KEY}&part=snippet`
             PAYLOAD= {
               method: 'POST',
               headers: {
@@ -275,7 +273,7 @@ const MigrateToSink = () => {
 
   const handleSinkLogin = () => {
     const CLIENT_ID_SPOTIFY = 'dbc7f858242e4a19977a1eaa0d0fb516'
-    const REDIRECT_URI_SPOTIFY = 'http://localhost:3000'
+    const REDIRECT_URI_SPOTIFY = process.env.REDIRECT_URI
     const AUTH_ENDPOINT = 'https://accounts.spotify.com/authorize'
     const RESPONSE_TYPE_SPOTIFY = "token"
     const scopes = [
@@ -299,7 +297,7 @@ const MigrateToSink = () => {
     }
     function start() {
       gapi.client.init({
-        clientId: clientId,
+        clientId: process.env.CLIENT_ID,
         scope: ""
       })
     }
@@ -322,7 +320,7 @@ const MigrateToSink = () => {
 
         {sinkAccessToken === null ? (<div style={{display:'flex',gap: '16px', padding:'24px'}}>
           {sinkType === "YOUTUBE" ? (<GoogleLogin 
-            clientId={clientId}
+            clientId={process.env.CLIENT_ID}
             buttonText="Login with YouTube"
             onSuccess={(res) => {let token = gapi.auth.getToken().access_token; setSinkAccessToken(token)}}
             onFailure={(res) => console.log(res)}

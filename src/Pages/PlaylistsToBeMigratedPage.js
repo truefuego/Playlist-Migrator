@@ -6,8 +6,8 @@ import { GoogleLogin } from 'react-google-login';
 import { GenericApi } from '../Components/GenericApi';
 import { usePlaylistsStore } from '../Stores.js/PlaylistStore';
 import NavBar from '../Components/NavBar';
-const clientId = '334628127192-cb17obfujh46c0fc0atuaq8gp94mis63.apps.googleusercontent.com'
-const API_KEY = 'AIzaSyAHcCkdC0iXi9qp0d-iorUjISddsmFuHhU'
+const clientId = process.env.CLIENT_ID
+const API_KEY = process.env.API_KEY
 const scopes = "https://www.googleapis.com/auth/youtube https://www.googleapis.com/auth/youtubepartner https://www.googleapis.com/auth/youtube.force-ssl"
 
 const PlaylistsToBeMigrated = () => {
@@ -191,7 +191,7 @@ const PlaylistsToBeMigrated = () => {
 
   const handleSourceLogin = () => {
     const CLIENT_ID_SPOTIFY = 'dbc7f858242e4a19977a1eaa0d0fb516'
-    const REDIRECT_URI_SPOTIFY = 'http://localhost:3000'
+    const REDIRECT_URI_SPOTIFY = process.env.REDIRECT_URI
     const AUTH_ENDPOINT = 'https://accounts.spotify.com/authorize'
     const RESPONSE_TYPE_SPOTIFY = "token"
     const scopes = ['user-read-email','user-read-private','user-library-read','user-library-modify','playlist-modify-public','playlist-modify-private']
